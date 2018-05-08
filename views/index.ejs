@@ -7,16 +7,17 @@
     <title>Users Form</title>
 </head>
 <body>
-        <h2>Here are all the users:</h2>
-        <% for (var x in users) { %>
-            <h3>Name: <%= users[x].name %></h3>
-            <h4>Age: <%= users[x].age %></h4>
-            <hr>
+        <% if(messages.errors) { %>
+            <% for (var x of messages.errors) { %>
+             <h3><%= x %></h3>
+            <% } %>
         <% } %>
-    <form action="/users" method="POST">
+       <h1>Welcome to Quoting</h1>
+    <form action="/quotes" method="POST">
         Your Name: <input type="text" name="name">
-        Your Age: <input type="text" name="age">
-        <input type="submit" value="Submit">
+        Your Quote: <input type="text" name="quote">
+        <input type="submit" value="Add My Quote!">
     </form>
+    <button><a href="/quotes">Skip to Quotes!</a></button>
 </body>
 </html>
