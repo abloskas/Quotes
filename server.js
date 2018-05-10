@@ -24,8 +24,8 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/quote_dojo');
 // Mongoose schema
 var QuoteSchema = new mongoose.Schema({
-    name: { type: String, required: true, minlength: 6},
-    quote: { type: String, required: true, minlength: 10}
+    name: { type: String, required: [true, "Please enter a name"], minlength: [6, "min length 6 characters"]},
+    quote: { type: String, required: [true, "Please enter a quote"], minlength: [10," min length 10 characters"]}
 },
 {timestamp:true});
 mongoose.model('Quote', QuoteSchema); 
@@ -40,44 +40,9 @@ app.use(express.static(path.join(__dirname, './static')));
 app.set('views', path.join(__dirname, './views'));
 // Setting our View Engine set to EJS
 app.set('view engine', 'ejs');
-// Routes
-// Root Request
-app.get('/', function(req, res) {
-  res.render('index');
-})
-app.get('/quotes', function(req, res){
-  Quote.find({}, function(err, quotes) {
-    if (err) {
-      console.log("We have an error!", err);
-      for(var key in err.errors){
-          req.flash('quoteErrors', err.errors[key].message);
-      }
-      res.redirect('/');
-    }
-   else {
-    res.render('quotes', {quotes: quotes});
-   }
-  }) 
-})
 
-app.post('/quotes', function(req, res) {
-    console.log("POST DATA", req.body);
-    var quote = new Quote({name: req.body.name, quote: req.body.quote});
-    quote.save(function(err) {
-      // if there is an error console.log that something went wrong!
-      console.log("hello");
-      if(err) {
-        console.log('something went wrong');
-        for(var key in err.errors){
-          req.flash('errors', err.errors[key].message);
-        }
-        res.redirect("/");
-      } else { // else console.log that we did well and then redirect to the root route
-        console.log('successfully added a quote!');
-        res.redirect('/quotes');
-      }
-    })
-  })  
+// Routes moved to routes.js 
+require('./server/config/routes.js')(app)
 
   
 // Setting our Server to Listen on Port: 8000
