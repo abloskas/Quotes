@@ -11,14 +11,8 @@ app.use(session({
   saveUninitialized: true,
   cookie: { maxAge: 60000 }
 }))
-var path = require('path');
-var mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/quote_dojo');
-
-// Use native promises for Mongoose
-mongoose.Promise = global.Promise;
-
+const path = require("path");
 
 app.use(express.static(path.join(__dirname, './static')));
 
@@ -28,6 +22,9 @@ app.set('view engine', 'ejs');
 
 // Routes moved to routes.js 
 require('./server/config/routes.js')(app)
+
+//mongoose.js in config
+require("./server/config/mongoose");
 
 
 app.listen(8000, function() {
