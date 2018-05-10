@@ -1,8 +1,8 @@
 // Root Request
 
-const mongoose = require('mongoose'),
-Quote = mongoose.model('Quote')
+const mongoose = require('mongoose');
 const quotes = require('../controllers/quotes')
+Quote = mongoose.model('Quote')
 module.exports = function(app){
 app.get('/', function(req, res) {
     quotes.index(req, res);
